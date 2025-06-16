@@ -44,7 +44,7 @@ f1 = x2 - x1
 # print("f1 =", f1)
 
 m        = 2
-tol      = 1e-6
+tol      = 1.49012e-06
 maxIters = 30
 
 for i in range(2,  maxIters):
@@ -70,7 +70,7 @@ for i in range(2,  maxIters):
 
     if np.linalg.norm(diff_vecs)<tol:
         print("~~~~~~~~~~~~~~ Solution Stats ~~~~~~~~~~~~~~~~~ ")
-        print("Convergence reached at %d iteration\n" %i)
+        print("Convergence reached at iteration %d\n" %i)
         print("~~~~~~~~~~~~~~ Computed Solution ~~~~~~~~~~~~~~~~~ ")
         print(x3)
         print("~~~~~~~~~~~~~~ Solution Error~~~~~~~~~~~~~~~~~~ ")
