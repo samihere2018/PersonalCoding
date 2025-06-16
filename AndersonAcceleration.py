@@ -63,7 +63,10 @@ for i in range(2,  maxIters):
 
     bigG_gamma = np.matmul(big_G, ls_gamma)
     x3 = G(x2) - bigG_gamma
-    print("Computed vector at iteration %d = " %i, x3)
+    print("Computed vector at iteration %d = \n " %i)
+    for element in x3:
+        print(f"{element[0]:.5E}")
+    print(" \n ")
 
     diff_vecs = x3 - x2
     solErr = abs(x3-trueSol)
@@ -71,10 +74,17 @@ for i in range(2,  maxIters):
     if np.linalg.norm(diff_vecs)<tol:
         print("~~~~~~~~~~~~~~ Solution Stats ~~~~~~~~~~~~~~~~~ ")
         print("Convergence reached at iteration %d\n" %i)
+        print("~~~~~~~~~~~~~~ Exact Solution ~~~~~~~~~~~~~~~~~ ")
+        for element in trueSol:
+            print(f"{element[0]:.5E}")
+        # print(trueSol)
         print("~~~~~~~~~~~~~~ Computed Solution ~~~~~~~~~~~~~~~~~ ")
-        print(x3)
+        for element in x3:
+            print(f"{element[0]:.5E}")
         print("~~~~~~~~~~~~~~ Solution Error~~~~~~~~~~~~~~~~~~ ")
-        print(solErr)
+        for element in solErr:
+            print(f"{element[0]:.5E}")
+        # print(solErr)
         break
     else:
         x0 = x1

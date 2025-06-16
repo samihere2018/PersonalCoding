@@ -29,14 +29,17 @@ import numpy as np
 #store fixed point equations as a vector for easy substitution
 def G(vec):
     x,y,z = vec.flatten() 
-    eq1 = (1.0/4.0)*(np.sin(y) + complex(0,1)*z + 1.0)
-    eq2 = (1.0/5.0)*(x**2 + np.cos(z) + complex(0,2))
+    eq1 = (1.0/4.0)*(np.sin(y) + complex(0.0,1.0)*z + 1.0)
+    eq2 = (1.0/5.0)*(x**2 + np.cos(z) + complex(0.0,2.0))
     eq3 = (1.0/6.0)*(np.exp(-x) + y + 3.0)
     return np.array([[eq1], [eq2], [eq3]])
 # end function G
     
-trueSol = np.array([[complex(0.2844,0.2703)], [complex(0.1612, 0.4262)], [complex(0.6477,0.0375)]])
-x0 = np.array([[complex(0.0,0.0)], [complex(0.0, 0.0)], [complex(0.0,0.0)]])
+#exact solution
+trueSol = np.array([[complex(0.28443101049565, 0.27031686078054)], [complex(0.16117132843381, 0.42622240595676)], [complex(0.64771494226506, 0.03754877135588)]])
+
+#initial guess
+x0 = np.array([[complex(0.2,0.2)], [complex(0.1, 0.4)], [complex(0.6,0.03)]])
 x1 = G(x0)
 f0 = x1 - x0
 # print("f0 =", f0)
@@ -65,7 +68,10 @@ for i in range(2,  maxIters):
 
     bigG_gamma = np.matmul(big_G, ls_gamma)
     x3 = G(x2) - bigG_gamma
-    print("Computed vector at iteration %d = \n " %i, x3)
+    print("Computed vector at iteration %d = \n " %i)
+    for element in x3:
+        print(f"{element[0]:.15E}")
+    print(" \n ")
 
     diff_vecs = x3 - x2
     solErr = abs(x3-trueSol)
@@ -74,11 +80,16 @@ for i in range(2,  maxIters):
         print("~~~~~~~~~~~~~~ Solution Stats ~~~~~~~~~~~~~~~~~ ")
         print("Convergence reached at iteration %d\n" %i)
         print("~~~~~~~~~~~~~~ Exact Solution ~~~~~~~~~~~~~~~~~ ")
-        print(trueSol)
+        for element in trueSol:
+            print(f"{element[0]:.6E}")
+        # print(trueSol)
         print("~~~~~~~~~~~~~~ Computed Solution ~~~~~~~~~~~~~~~~~ ")
-        print(x3)
+        for element in x3:
+            print(f"{element[0]:.6E}")
         print("~~~~~~~~~~~~~~ Solution Error~~~~~~~~~~~~~~~~~~ ")
-        print(solErr)
+        for element in solErr:
+            print(f"{element[0]:.6E}")
+        # print(solErr)
         break
     else:
         x0 = x1
