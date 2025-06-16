@@ -8,17 +8,20 @@
 # ----------------------------------------------------------------------------------------------------
 # This example solves the nonlinear system
 #  
-# 3x - cos((y-1)z) - 1/2 = 0
-# x^2 - 81(y-0.9)^2 + sin(z) + 1.06 = 0
-# exp(-x(y-1)) + 20z + (10 pi - 3)/3 = 0
+# 4x    - sin(y) - zi     - 1  = 0
+# -x^2  + 5y     - cos(z) - 2i = 0
+# -e^-x -y      + 6z      - 3  = 0
 # 
 # using the accelerated fixed pointer solver in KINSOL. The nonlinear fixed point function is
 # 
-#  g1(x,y,z) = 1/3 cos((y-1)yz) + 1/6
-#  g2(x,y,z) = 1/9 sqrt(x^2 + sin(z) + 1.06) + 0.9
-#  g3(x,y,z) = -1/20 exp(-x(y-1)) - (10 pi - 3) / 60
+#  g1(x,y,z) = (1/4)*(sin(y) + zi + 1)
+#  g2(x,y,z) = (1/5)*(x^2 + cos(z) + 2i)
+#  g3(x,y,z) = (1/6)*(exp(-x) + y + 3)
 #
-#  This system has the analytic solution x = 1/2, y = 1, z = -pi/6.
+#  This system has the analytic solution: 
+#                                        x = 0.2844 + 0.2703i 
+#                                        y = 0.1612 + 0.4262i
+#                                        z = 0.6477 + 0.0375i
 #  -------------------------------------------------------------------------------------------------
 
 import numpy as np 
