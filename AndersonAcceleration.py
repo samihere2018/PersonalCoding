@@ -36,11 +36,11 @@ def G(vec):
 trueSol = np.array([[0.5], [1.0], [-np.pi/6.0]])
 x0 = np.array([[0.1], [0.1], [-0.1]])
 x1 = G(x0)
-f0 = x1 - x0
+f0 = G(x0) - x0
 # print("f0 =", f0)
 
 x2 = G(x1)
-f1 = x2 - x1
+f1 = G(x1) - x1
 # print("f1 =", f1)
 
 m        = 2
@@ -49,24 +49,36 @@ maxIters = 30
 
 for i in range(2,  maxIters):
     f2 = G(x2) - x2
+    # print("fv at iteration %d = \n " %i)
+    # for element in f2:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     delta_g0 = G(x1) - G(x0)
     delta_g1 = G(x2) - G(x1)
     big_G = np.column_stack((delta_g0, delta_g1))
+    # print("Big_G at iteration %d = \n " %i)
+    # for element in big_G:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     delta_f0 = (G(x1) - x1) - (G(x0) - x0)#f1 - f0
     delta_f1 = (G(x2) - x2) - (G(x1) - x1)#f2 - f1
     big_F = np.column_stack((delta_f0, delta_f1))
+    # print("Big_F at iteration %d = \n " %i)
+    # for element in big_F:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     Q, R = np.linalg.qr(big_F)
     ls_gamma = np.linalg.solve(R, Q.T @ f2)
 
     bigG_gamma = np.matmul(big_G, ls_gamma)
     x3 = G(x2) - bigG_gamma
-    print("Computed vector at iteration %d = \n " %i)
-    for element in x3:
-        print(f"{element[0]:.5E}")
-    print(" \n ")
+    # print("Computed vector at iteration %d = \n " %i)
+    # for element in x3:
+    #     print(f"{element[0]:.14E}")
+    # print(" \n ")
 
     diff_vecs = x3 - x2
     solErr = abs(x3-trueSol)
@@ -76,14 +88,14 @@ for i in range(2,  maxIters):
         print("Convergence reached at iteration %d\n" %i)
         print("~~~~~~~~~~~~~~ Exact Solution ~~~~~~~~~~~~~~~~~ ")
         for element in trueSol:
-            print(f"{element[0]:.5E}")
+            print(f"{element[0]:.14E}")
         # print(trueSol)
         print("~~~~~~~~~~~~~~ Computed Solution ~~~~~~~~~~~~~~~~~ ")
         for element in x3:
-            print(f"{element[0]:.5E}")
+            print(f"{element[0]:.14E}")
         print("~~~~~~~~~~~~~~ Solution Error~~~~~~~~~~~~~~~~~~ ")
         for element in solErr:
-            print(f"{element[0]:.5E}")
+            print(f"{element[0]:.14E}")
         # print(solErr)
         break
     else:

@@ -39,14 +39,20 @@ def G(vec):
 trueSol = np.array([[complex(0.28443101049565, 0.27031686078054)], [complex(0.16117132843381, 0.42622240595676)], [complex(0.64771494226506, 0.03754877135588)]])
 
 #initial guess
-x0 = np.array([[complex(0.2,0.2)], [complex(0.1, 0.4)], [complex(0.6,0.03)]])
+x0 = np.array([[complex(0.0,0.0)], [complex(0.0, 0.0)], [complex(0.0,0.0)]])
 x1 = G(x0)
 f0 = x1 - x0
-# print("f0 =", f0)
+# print("f0 \n ")
+# for element in f0:
+#     print(f"{element[0]:.15E}")
+# print(" \n ")
 
 x2 = G(x1)
-f1 = x2 - x1
-# print("f1 =", f1)
+f1 = G(x1) - x1
+# print("f1 \n ")
+# for element in f1:
+#     print(f"{element[0]:.15E}")
+# print(" \n ")
 
 m        = 2
 tol      = 1.49012e-06
@@ -54,24 +60,36 @@ maxIters = 30
 
 for i in range(2,  maxIters):
     f2 = G(x2) - x2
+    # print("fv at iteration %d = \n " %i)
+    # for element in f2:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     delta_g0 = G(x1) - G(x0)
     delta_g1 = G(x2) - G(x1)
     big_G = np.column_stack((delta_g0, delta_g1))
+    # print("Big_G at iteration %d = \n " %i)
+    # for element in big_G:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     delta_f0 = (G(x1) - x1) - (G(x0) - x0)#f1 - f0
     delta_f1 = (G(x2) - x2) - (G(x1) - x1)#f2 - f1
     big_F = np.column_stack((delta_f0, delta_f1))
+    # print("Big_F at iteration %d = \n " %i)
+    # for element in big_F:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     Q, R = np.linalg.qr(big_F)
     ls_gamma = np.linalg.solve(R, Q.T @ f2)
 
     bigG_gamma = np.matmul(big_G, ls_gamma)
     x3 = G(x2) - bigG_gamma
-    print("Computed vector at iteration %d = \n " %i)
-    for element in x3:
-        print(f"{element[0]:.15E}")
-    print(" \n ")
+    # print("Computed vector at iteration %d = \n " %i)
+    # for element in x3:
+    #     print(f"{element[0]:.15E}")
+    # print(" \n ")
 
     diff_vecs = x3 - x2
     solErr = abs(x3-trueSol)
